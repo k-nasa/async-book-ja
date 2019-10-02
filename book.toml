@@ -11,7 +11,3 @@ create-missing = false
 [preprocess.links]
 
 [output.html]
-
-[output.linkcheck]
-follow-web-links = true
-traverse-parent-directories = false

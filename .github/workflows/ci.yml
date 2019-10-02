@@ -9,7 +9,6 @@ jobs:
 
       - name: Rust version
         run: |
-          rustup default nightly
           rustc -vV
           cargo -vV
 

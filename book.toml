@@ -1,6 +1,17 @@
 [book]
 authors = ["k-nasa"]
-language = "en"
+language = "ja"
 multilingual = false
 src = "src"
 title = "Asynchronous Programming in Rust"
+
+[build]
+create-missing = false
+
+[preprocess.links]
+
+[output.html]
+
+[output.linkcheck]
+follow-web-links = true
+traverse-parent-directories = false

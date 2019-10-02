@@ -1,1 +1,1 @@
-# Traitsでのasync
+# Traits での async

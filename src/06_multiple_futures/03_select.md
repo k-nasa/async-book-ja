@@ -1,1 +1,1 @@
-# selectマクロ
+# select マクロ

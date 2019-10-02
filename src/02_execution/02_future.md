@@ -1,1 +1,1 @@
-# Futureトレイト
+# Future トレイト

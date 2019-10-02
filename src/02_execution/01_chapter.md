@@ -1,1 +1,1 @@
-# 中身を見てみよう: FutureとTaskの実行
+# 中身を見てみよう: Future と Task の実行

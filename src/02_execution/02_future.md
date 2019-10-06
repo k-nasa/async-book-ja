@@ -59,9 +59,5 @@
 次に、`wake: fn()`は`&mut Context<'_>'`に変更されました。
 `SimpleFuture`では関数ポインターの呼び出しを使用して、`Future`をポーリングすることをエグゼキューターに伝えました。しかし、`fn()`はサイズがゼロであるため、`wake`が呼ばれたことなどのデータを保存することが出来ません
 
-In a real-world scenario, a complex application like a web server may have
-thousands of different connections whose wakeups should all be
-managed separately. The `Context` type solves this by providing access to
-a value of type `Waker`, which can be used to wake up a specific task.
-
-[pinning]: ../04_pinning/01_chapter.md
+実際は、Webサーバーのような複雑なアプリケーションには起動をすべて個別に管理する必要がある数千の異なる接続が存在する場合があります。
+この`Context`タイプは特定のタスクを起動するために使用できる`Waker`へのアクセスを提供することでこれを解決します。

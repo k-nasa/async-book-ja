@@ -18,55 +18,46 @@
 
 `wakte()`がなければ、エグゼキューターは`Future`がいつ進むかを知る方法がなく、つねにすべての`future`をポーリングする必要があります。`wake()`を使用するkとで、エグゼキューターはどの`Future`を`poll`する準備ができているかを正確に把握できます。
 
-For example, consider the case where we want to read from a socket that may
-or may not have data available already. If there is data, we can read it
-in and return `Poll::Ready(data)`, but if no data is ready, our future is
-blocked and can no longer make progress. When no data is available, we
-must register `wake` to be called when data becomes ready on the socket,
-which will tell the executor that our future is ready to make progress.
-A simple `SocketRead` future might look something like this:
+例えば、すでに利用可能なデータが有る場合とない場合があるソケットから読み取りたい場合を考えます。データが有る場合、`Poll::Ready(data)`でそれを読み込んで返すことが出来ます。
+しかし、データの準備ができていない時`Future`はブロックされ、進行できなくなります。
+データが利用できない時、ソケットでデータの準備ができた時に`wake`が呼び出されるように登録する必要があります。
+これにより、エグゼキューターに準備が整ったことが分かります。
+
+単純な`SocketRead`は次のようになります。
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:socket_read}}
 ```
 
-This model of `Future`s allows for composing together multiple asynchronous
-operations without needing intermediate allocations. Running multiple futures
-at once or chaining futures together can be implemented via allocation-free
-state machines, like this:
+このモデルでは、中間割当を必要とせずに、複数の非同期オペレーションを一緒に構築できます。 次のように、複数の`Future`を実行したり、連鎖させたりすることは割当のないステートマシンを介して実装できます。
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:join}}
 ```
 
-This shows how multiple futures can be run simultaneously without needing
-separate allocations, allowing for more efficient asynchronous programs.
-Similarly, multiple sequential futures can be run one after another, like this:
+これは、個別の割当を必要とせずに複数の`Future`を同時に実行できる方法を示し、より効率的な非同期プログラムを可能にします。同様に、複数のシーケンシャル`Future`を次々に実行することも出来ます。
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:and_then}}
 ```
 
-These examples show how the `Future` trait can be used to express asynchronous
-control flow without requiring multiple allocated objects and deeply nested
-callbacks. With the basic control-flow out of the way, let's talk about the
-real `Future` trait and how it is different.
+これらの例は複数の割り当てられたオブジェクトと深くネストされたコールバックを必要とせずに、`Future`トレイトを使用して非同期制御フローを表現する方法を示しています。
+
+基本的な制御フローが終わったら、実際の`Future`トレイトと`SimpleFuture`がどのように異なるかを話していきます。
+
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:real_future}}
 ```
 
-The first change you'll notice is that our `self` type is no longer `&mut self`,
-but has changed to `Pin<&mut Self>`. We'll talk more about pinning in [a later
-section][pinning], but for now know that it allows us to create futures that
-are immovable. Immovable objects can store pointers between their fields,
-e.g. `struct MyFut { a: i32, ptr_to_a: *const i32 }`. Pinning is necessary
-to enable async/await.
+気づきやすい最初の変更は`self`がもはや`&mut self`出ないことです。
+`Pin<&mut Self>`に変更されました。`Pin`については、[あとのセクション](../04_pinning/01_chapter.md)で詳しくお話します、が、現時点では、`Pin`によって固定した`Future`を作成できることを知っています。固定されたオブジェクトはフィールドなどにポインタを格納できます。`struct MyFut { a: i32, ptr_to_a: *const i32 }`のように。
+`async / await`を有効にするにはピン留めが必要になります。
 
-Secondly, `wake: fn()` has changed to `&mut Context<'_>`. In `SimpleFuture`,
-we used a call to a function pointer (`fn()`) to tell the future executor that
-the future in question should be polled. However, since `fn()` is zero-sized,
-it can't store any data about *which* `Future` called `wake`.
+
+
+次に、`wake: fn()`は`&mut Context<'_>'`に変更されました。
+`SimpleFuture`では関数ポインターの呼び出しを使用して、`Future`をポーリングすることをエグゼキューターに伝えました。しかし、`fn()`はサイズがゼロであるため、`wake`が呼ばれたことなどのデータを保存することが出来ません
 
 In a real-world scenario, a complex application like a web server may have
 thousands of different connections whose wakeups should all be

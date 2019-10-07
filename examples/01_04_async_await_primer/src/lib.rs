@@ -4,9 +4,9 @@ use futures::executor::block_on;
 
 mod first {
 // ANCHOR: hello_world
-// `block_on` blocks the current thread until the provided future has run to
-// completion. Other executors provide more complex behavior, like scheduling
-// multiple futures onto the same thread.
+// block_onは提供されたfutureが完了するまで現在のスレッドをブロックします。
+// 他のエグゼキューターは、同じスレッドに複数のfutureをスケジュールするなど、
+// より複雑な動作を提供します。
 use futures::executor::block_on;
 
 async fn hello_world() {
@@ -14,8 +14,8 @@ async fn hello_world() {
 }
 
 fn main() {
-    let future = hello_world(); // Nothing is printed
-    block_on(future); // `future` is run and "hello, world!" is printed
+    let future = hello_world(); // ここでは何もprintされない
+    block_on(future); // futureが動き"hello, world!"が表示される
 }
 // ANCHOR_END: hello_world
 

@@ -11,5 +11,5 @@ create-missing = false
 [preprocess.links]
 
 [output.html]
-git-repository-url = "https://github.com/async-rs/async-std"
+git-repository-url = "https://github.com/k-nasa/async-book-ja"
 git-repository-icon = "fa-github"

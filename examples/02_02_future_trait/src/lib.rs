@@ -37,15 +37,14 @@ impl SimpleFuture for SocketRead<'_> {
 
     fn poll(&mut self, wake: fn()) -> Poll<Self::Output> {
         if self.socket.has_data_to_read() {
-            // The socket has data-- read it into a buffer and return it.
+            // ソケットにはデータがあります。それをバッファに読み込んで返します。
             Poll::Ready(self.socket.read_buf())
         } else {
-            // The socket does not yet have data.
+            // ソケットにはまだデータがありません
             //
-            // Arrange for `wake` to be called once data is available.
-            // When data becomes available, `wake` will be called, and the
-            // user of this `Future` will know to call `poll` again and
-            // receive data.
+            // データが利用可能になったらwakeが呼び出されるようにします。
+            // データが利用可能になるとwakeが呼び出され
+            // このFutureのユーザーは再度pollを呼び出してデータを受信することが分かります。
             self.socket.set_readable_callback(wake);
             Poll::Pending
         }

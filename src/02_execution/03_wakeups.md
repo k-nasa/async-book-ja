@@ -24,37 +24,27 @@
 {{#include ../../examples/02_03_timer/src/lib.rs:imports}}
 ```
 
-`Future`の型自体を定義するところからです。
-
-Let's start by defining the future type itself. Our future needs a way for the
-thread to communicate that the timer has elapsed and the future should complete.
-We'll use a shared `Arc<Mutex<..>>` value to communicate between the thread and
-the future.
+`Future`の型自体を定義するところからです。私達のfutureにはスレットが、タイマーが経過し、futureが完了するべきであることを伝える方法が必要です。 `Arc<Mutex<..>>`を使用して、スレッドとfutureの間で通信します。
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:timer_decl}}
 ```
 
-Now, let's actually write the `Future` implementation!
+実際に`Future`の実装を書いていきましょ！
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:future_for_timer}}
 ```
 
-Pretty simple, right? If the thread has set `shared_state.completed = true`,
-we're done! Otherwise, we clone the `Waker` for the current task and pass it to
-`shared_state.waker` so that the thread can wake the task back up.
+かなり簡単ですね。スレッドに`shared_state.completed = true`が設定されている時、完了です！ それ以外の場合`Waker`は現在のタスクのクローンを作成して`shared_state.waker`に渡し、スレッドがタスクを復帰できるようにします。
 
-Importantly, we have to update the `Waker` every time the future is polled
-because the future may have moved to a different task with a different
-`Waker`. This will happen when futures are passed around between tasks after
-being polled.
+重要なのは、futureが異なる`Waker`を持つ異なるタスクに移動した可能性があるため、futureがポーリングされるたびに`Waker`を更新する必要があることです。これは、ポーリングされたあと、タスク間でfutureが渡される時に発生します。
 
-Finally, we need the API to actually construct the timer and start the thread:
+最後に、実際にタイマーを構築してスレッドを開始するAPIが必要です。
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:timer_new}}
 ```
 
-Woot! That's all we need to build a simple timer future. Now, if only we had
-an executor to run the future on...
+すげぇ！単純なタイマーのfutureを構築するために必要なのはそれだけです。
+さて、futureを実行するエグゼキューターがいれば、、、

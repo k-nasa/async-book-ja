@@ -24,13 +24,13 @@
 {{#include ../../examples/02_03_timer/src/lib.rs:imports}}
 ```
 
-`Future`の型自体を定義するところからです。私達の future にはスレットが、タイマーが経過し、future が完了するべきであることを伝える方法が必要です。 `Arc<Mutex<..>>`を使用して、スレッドと future の間で通信します。
+`Future`の型自体を定義するところからです。私達の future にはスレッドが、タイマーが経過し、future が完了するべきであることを伝える方法が必要です。 `Arc<Mutex<..>>`を使用して、スレッドと future の間で通信します。
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:timer_decl}}
 ```
 
-実際に`Future`の実装を書いていきましょ！
+実際に`Future`の実装を書いていきましょう！
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:future_for_timer}}

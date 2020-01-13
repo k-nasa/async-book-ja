@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [初めに](01_getting_started/01_chapter.md)
+- [はじめに](01_getting_started/01_chapter.md)
   - [なぜ非同期？](01_getting_started/02_why_async.md)
   - [非同期 Rust の現状](01_getting_started/03_state_of_async_rust.md)
   - [`async`/`.await` 入門書!](01_getting_started/04_async_await_primer.md)
@@ -12,7 +12,7 @@
   - [エグゼキューターとシステム IO](02_execution/05_io.md)
 - [`async`/`await`再び！](03_async_await/01_chapter.md)
 - [pin で固定しよう](04_pinning/01_chapter.md)
-- [ストリーーム](05_streams/01_chapter.md)
+- [ストリーム](05_streams/01_chapter.md)
   - [イテレーションと並行性](05_streams/02_iteration_and_concurrency.md)
 - [たくさんの Future を一度に実行しよう](06_multiple_futures/01_chapter.md)
   - [`join`マクロ](06_multiple_futures/02_join.md)

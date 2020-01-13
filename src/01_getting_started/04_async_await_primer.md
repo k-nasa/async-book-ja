@@ -41,6 +41,6 @@ async fn dance() { ... }
 {{#include ../../examples/01_04_async_await_primer/src/lib.rs:block_on_main}}
 ```
 
-この例では、歌を歌う前に歌を学習する必要がありますが、詩を学ぶと同時に踊ることもできます。 `learn_and_sing`で`learn_song().await`ではなく`block_on(learn_son())`を使ってしまうと、スレッドはしばらくの間他のことを行うことができなくなり、同時に踊ることを不可能にします。
+この例では、歌を歌う前に歌を学習する必要がありますが、歌を学ぶと同時に踊ることもできます。 `learn_and_sing`で`learn_song().await`ではなく`block_on(learn_son())`を使ってしまうと、スレッドはしばらくの間他のことを行うことができなくなり、同時に踊ることを不可能にします。
 
 今学習した、`async / await` の例を試してみましょう！

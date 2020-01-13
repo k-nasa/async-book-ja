@@ -57,7 +57,7 @@ future を poll するには`Waker`を作成する必要があります。[Waker
 {{#include ../../examples/02_04_executor/src/lib.rs:executor_run}}
 ```
 
-おめでとう！future エグゼキューターが出来ました！これを使用して、`async / .await`コードと先ほど書いた`TimerFuture`などのカスタム future を実行することが出来ます。
+おめでとう！future エグゼキューターができました！これを使用して、`async / .await`コードと先ほど書いた`TimerFuture`などのカスタム future を実行することができます。
 
 ```rust
 {{#include ../../examples/02_04_executor/src/lib.rs:main}}

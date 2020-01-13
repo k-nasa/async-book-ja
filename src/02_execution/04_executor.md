@@ -51,13 +51,13 @@ future を poll するには`Waker`を作成する必要があります。[Waker
 {{#include ../../examples/02_04_executor/src/lib.rs:arcwake_for_task}}
 ```
 
-`Arc<Task>`から`Waker`が作成された時に`wake()`を呼び出すと、Arc のコピがタスクチャネルに送信されます。次に、エグゼキューターがタスクを取得してポーリングする必要があります。それを実装しましょう。
+`Arc<Task>`から`Waker`が作成された時に`wake()`を呼び出すと、Arc のコピーがタスクチャネルに送信されます。次に、エグゼキューターがタスクを取得してポーリングする必要があります。それを実装しましょう。
 
 ```rust
 {{#include ../../examples/02_04_executor/src/lib.rs:executor_run}}
 ```
 
-おめでとう！future エグゼキューターが出来ました！これを使用して、`async / .await`コードと先程書いた`TimerFuture`などのカスタム future を実行することが出来ます。
+おめでとう！future エグゼキューターが出来ました！これを使用して、`async / .await`コードと先ほど書いた`TimerFuture`などのカスタム future を実行することが出来ます。
 
 ```rust
 {{#include ../../examples/02_04_executor/src/lib.rs:main}}
